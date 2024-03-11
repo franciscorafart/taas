@@ -12,11 +12,12 @@ import DarkModeSwitcher from '../admin/components/DarkModeSwitcher';
 import { UserMenuItems } from '../components/UserMenuItems';
 
 const navigation = [
-  { name: 'AI Scheduler (Demo App)', href: '/demo-app' },
+  // { name: 'AI Scheduler (Demo App)', href: '/demo-app' },
+  { name: "Three cards reading", href: "/reading" },
   { name: 'File Upload (AWS S3)', href: '/file-upload' },
   { name: 'Pricing', href: '/pricing' },
-  { name: 'Documentation', href: DOCS_URL },
-  { name: 'Blog', href: BLOG_URL },
+  // { name: 'Documentation', href: DOCS_URL },
+  // { name: 'Blog', href: BLOG_URL },
 ];
 
 const NavLogo = () => <img className='h-8 w-8' src={logo} alt='Your SaaS App' />;

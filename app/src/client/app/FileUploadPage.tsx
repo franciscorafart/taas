@@ -46,6 +46,7 @@ export default function FileUploadPage() {
       const name = file.name;
 
       const { uploadUrl } = await createFile({ fileType, name });
+
       if (!uploadUrl) {
         throw new Error('Failed to get upload URL');
       }
@@ -57,6 +58,8 @@ export default function FileUploadPage() {
       if (res.status !== 200) {
         throw new Error('File upload to S3 failed');
       }
+
+      // TODO: Write to DB should go here
     } catch (error) {
       alert('Error uploading file. Please try again');
       console.error('Error uploading file', error);

@@ -205,10 +205,15 @@ page SignupPage {
 //   component: import { EmailVerification } from "@src/client/auth/EmailVerification",
 // }
 
-route DemoAppRoute { path: "/demo-app", to: DemoAppPage }
-page DemoAppPage {
-  authRequired: true,
-  component: import DemoAppPage from "@src/client/app/DemoAppPage"
+// route DemoAppRoute { path: "/demo-app", to: DemoAppPage }
+// page DemoAppPage {
+//   authRequired: true,
+//   component: import DemoAppPage from "@src/client/app/DemoAppPage"
+// }
+
+route ReadingRoute { path: "/reading", to: ReadingPage }
+page ReadingPage {
+  component: import ReadingPage from "@src/client/app/ReadingPage"
 }
 
 route PricingPageRoute { path: "/pricing", to: PricingPage }

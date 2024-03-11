@@ -22,3 +22,8 @@ export type GeneratedSchedule = {
 export type FunctionCallResponse = {
   schedule: GeneratedSchedule[];
 };
+
+export type TarotCard = {
+  value: string;
+  label: string;
+}
