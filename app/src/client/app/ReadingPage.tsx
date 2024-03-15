@@ -1,18 +1,30 @@
 import { FormEvent, useState } from "react";
 import { TAROT_DECK } from "wasp/ext-src/shared/constants";
 import { TarotCard } from "wasp/ext-src/shared/types";
+import { generateGptTarotReading } from "wasp/client/operations";
 
 export default function ReadingPage() {
     const [cardThrow, setCardThrow] = useState<TarotCard[] | undefined>(undefined);
+    const [reading, setReading] = useState<string>('');
+
     const handleThrow = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Tarot reading form submitted');
+        console.log('Tarot reading form submitted', e.target);
         const cards = [];
         for(let i = 0; i < 3; i++) {
             cards.push(TAROT_DECK[Math.floor(Math.random() * 78)]);
         }
 
         setCardThrow(cards);
+
+        try {
+          const res = await generateGptTarotReading({ question: 'How is my job going to go in the next few months', cards} );
+          console.log('reading res', res)
+          setReading(res);
+
+        } catch (err: any) {
+          console.error('Error', err.message);
+        }
     }
 
     return (
@@ -29,6 +41,7 @@ export default function ReadingPage() {
             <div className='my-8 border rounded-3xl border-gray-900/10 dark:border-gray-100/10'>
               <div className='space-y-10 my-10 py-8 px-4 mx-auto sm:max-w-lg'>
                 <form onSubmit={handleThrow} className='flex flex-col gap-2'>
+                  <h3 className="text-md">Ask a question and give some context</h3>
                   <textarea
                     // type='textarea'
                     name='question'
@@ -45,13 +58,17 @@ export default function ReadingPage() {
                 </form>
                 <div className='border-b-2 border-gray-200 dark:border-gray-100/10'></div>
                 <div className='space-y-4 col-span-full'>
-                  <h2 className='text-xl font-bold'>Your Reading</h2>
                   {cardThrow?.length && cardThrow.map((card) => (
-                      <div key={card.value} className='flex flex-col gap-2'>
+                    <div key={card.value} className='flex flex-col gap-2'>
                           <p>{card.label}</p>
                           <img src={`/cards/${card.value}.png`} alt={card.label} />
                       </div>
                   ))}
+                  {reading && <>
+                    <h2 className='text-xl font-bold'>Your Reading</h2>
+                    <div>{reading}</div>
+                  </> 
+                    }
                   {/* {isFilesLoading && <p>Loading...</p>}
                   {filesError && <p>Error: {filesError.message}</p>}
                   {!!files && files.length > 0 ? (

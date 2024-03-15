@@ -233,11 +233,11 @@ page CheckoutPage {
   component: import Checkout from "@src/client/app/CheckoutPage"
 }
 
-route FileUploadRoute { path: "/file-upload", to: FileUploadPage }
-page FileUploadPage {
-  authRequired: true,
-  component: import FileUpload from "@src/client/app/FileUploadPage"
-}
+// route FileUploadRoute { path: "/file-upload", to: FileUploadPage }
+// page FileUploadPage {
+//   authRequired: true,
+//   component: import FileUpload from "@src/client/app/FileUploadPage"
+// }
 
 route AdminRoute { path: "/admin", to: DashboardPage }
 page DashboardPage {
@@ -308,6 +308,11 @@ page AdminUIButtonsPage {
 action generateGptResponse {
   fn: import { generateGptResponse } from "@src/server/actions.js",
   entities: [User, Task, GptResponse]
+}
+
+action generateGptTarotReading {
+  fn: import { generateGptTarotReading } from "@src/server/actions.js",
+  entities: [User, GptResponse]
 }
 
 action createTask {

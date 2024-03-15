@@ -2,6 +2,7 @@ import { type User, type Task, type File } from 'wasp/entities';
 import { HttpError } from 'wasp/server';
 import {
   type GenerateGptResponse,
+  type GenerateGptTarotReading,
   type StripePayment,
   type UpdateCurrentUser,
   type UpdateUserById,
@@ -11,7 +12,7 @@ import {
   type CreateFile,
 } from 'wasp/server/operations';
 import Stripe from 'stripe';
-import type { GeneratedSchedule, StripePaymentResult } from '../shared/types';
+import type { GeneratedSchedule, GeneratedTarotReading, StripePaymentResult, TarotCard } from '../shared/types';
 import { fetchStripeCustomer, createStripeCheckoutSession } from './payments/stripeUtils.js';
 import { TierIds } from '../shared/constants.js';
 import { getUploadFileSignedURLFromS3 } from './file-upload/s3Utils.js';
@@ -113,6 +114,7 @@ export const generateGptResponse: GenerateGptResponse<GptPayload, GeneratedSched
 
     // check if openai is initialized correctly with the API key
     if (openai instanceof Error) {
+      console.log('open ai!!', openai)
       throw openai;
     }
 
@@ -194,12 +196,13 @@ export const generateGptResponse: GenerateGptResponse<GptPayload, GeneratedSched
       temperature: 1,
     });
 
-    const gptArgs = completion?.choices[0]?.message?.tool_calls?.[0]?.function.arguments;
+    // const gptArgs = completion?.choices[0]?.message?.tool_calls?.[0]?.function.arguments;
+    const gptArgs = completion?.choices[0]?.message.content; // LLM Studio response
 
     if (!gptArgs) {
       throw new HttpError(500, 'Bad response from OpenAI');
     }
-
+//
     console.log('gpt function call arguments: ', gptArgs);
 
     await context.entities.GptResponse.create({
@@ -228,6 +231,146 @@ export const generateGptResponse: GenerateGptResponse<GptPayload, GeneratedSched
   }
 };
 
+export type TarotPayload = {
+  question: string;
+  cards: TarotCard[];
+}
+
+export const generateGptTarotReading: GenerateGptTarotReading<TarotPayload, GeneratedTarotReading> = async ({ question, cards}, context) => {
+  if (!context.user) {
+    throw new HttpError(401);
+  }
+
+  try {
+    if (!context.user.hasPaid && !context.user.credits) {
+      throw new HttpError(402, 'User has not paid or is out of credits');
+    } else if (context.user.credits && !context.user.hasPaid) {
+      console.log('decrementing credits');
+      await context.entities.User.update({
+        where: { id: context.user.id },
+        data: {
+          credits: {
+            decrement: 1,
+          },
+        },
+      });
+    }
+
+    // check if openai is initialized correctly with the API key
+    if (openai instanceof Error) {
+      throw openai;
+    }
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo', // Should I change this?
+      messages: [
+        {
+          role: 'system',
+          content:
+            'you are an expert tarot reader. You will be given a list Three tarot cards, the first will represent the past, the second the present, and the third the possible future. You might also receive some text input from the person that want to read their cards. This could be a question,some context of their issue, or both. Your job is to return a detailed reading putting the cards in context of what the person asks. Please give a brief introduction to the what the general message is, then a specific explanation of the cards in the context of the question and the relationship between them, and finalizing with a recommendation of actions to take.',
+        },
+        {
+          role: 'user',
+          content: `The cards are ${cards.map(c => c.label).join(', ')}. The question: ${question}`,
+        },
+      ],
+      // tools: [
+      //   {
+      //     type: 'function',
+      //     function: {
+      //       name: 'parseTodaysSchedule',
+      //       description: 'parses the days tasks and returns a schedule',
+      //       parameters: {
+      //         type: 'object',
+      //         properties: {
+      //           mainTasks: {
+      //             type: 'array',
+      //             description: 'Name of main tasks provided by user, ordered by priority',
+      //             items: {
+      //               type: 'object',
+      //               properties: {
+      //                 name: {
+      //                   type: 'string',
+      //                   description: 'Name of main task provided by user',
+      //                 },
+      //                 priority: {
+      //                   type: 'string',
+      //                   enum: ['low', 'medium', 'high'],
+      //                   description: 'task priority',
+      //                 },
+      //               },
+      //             },
+      //           },
+      //           subtasks: {
+      //             type: 'array',
+      //             items: {
+      //               type: 'object',
+      //               properties: {
+      //                 description: {
+      //                   type: 'string',
+      //                   description:
+      //                     'detailed breakdown and description of sub-task related to main task. e.g., "Prepare your learning session by first reading through the documentation"',
+      //                 },
+      //                 time: {
+      //                   type: 'number',
+      //                   description: 'time allocated for a given subtask in hours, e.g. 0.5',
+      //                 },
+      //                 mainTaskName: {
+      //                   type: 'string',
+      //                   description: 'name of main task related to subtask',
+      //                 },
+      //               },
+      //             },
+      //           },
+      //         },
+      //         required: ['mainTasks', 'subtasks', 'time', 'priority'],
+      //       },
+      //     },
+      //   },
+      // ],
+      // tool_choice: {
+      //   type: 'function',
+      //   function: {
+      //     name: 'parseTodaysSchedule',
+      //   },
+      // },
+      temperature: 1,
+    });
+
+    // const gptArgs = completion?.choices[0]?.message?.tool_calls?.[0]?.function.arguments;
+    const responseContent = completion?.choices[0]?.message; // LLM Studio response
+
+    if (!responseContent) {
+      throw new HttpError(500, 'Bad response from OpenAI');
+    }
+//
+    // console.log('gpt function call arguments: ', responseContent);
+
+    await context.entities.GptResponse.create({
+      data: {
+        user: { connect: { id: context.user.id } },
+        content: responseContent.content || '',
+      },
+    });
+
+    return responseContent.content || "";
+  } catch (error: any) {
+    if (!context.user.hasPaid && error?.statusCode != 402) {
+      await context.entities.User.update({
+        where: { id: context.user.id },
+        data: {
+          credits: {
+            increment: 1,
+          },
+        },
+      });
+    }
+    console.error(error);
+    const statusCode = error.statusCode || 500;
+    const errorMessage = error.message || 'Internal server error';
+    throw new HttpError(statusCode, errorMessage);
+  }
+};
 export const createTask: CreateTask<Pick<Task, 'description'>, Task> = async ({ description }, context) => {
   if (!context.user) {
     throw new HttpError(401);

@@ -19,6 +19,8 @@ export type GeneratedSchedule = {
   subtasks: Subtask[]; // Array of subtasks
 };
 
+export type GeneratedTarotReading = string
+
 export type FunctionCallResponse = {
   schedule: GeneratedSchedule[];
 };
