@@ -59,14 +59,14 @@ export const TAROT_DECK = [
   { value: 'wheel_of_fortune', label: 'Wheel of Fortune' },
   { value: 'justice', label: 'Justice' },
   { value: 'hanged_man', label: 'The Hanged Man' },
-  { value: 'death', label: 'Death' },
+  { value: 'death', label: 'XIII Arcane' },
   { value: 'temperance', label: 'Temperance' },
   { value: 'devil', label: 'The Devil' },
   { value: 'tower', label: 'The Tower' },
-  { value: 'start', label: 'The Star' },
+  { value: 'star', label: 'The Star' },
   { value: 'moon', label: 'The Moon' },
   { value: 'sun', label: 'The Sun' },
-  { value: 'judgment', label: 'Judgement' },
+  { value: 'judgement', label: 'Judgement' },
   { value: 'world', label: 'The World' },
   // Minor Arcana
   ...['Cups', 'Pentacles', 'Swords', 'Wands'].flatMap((suit, i) => 
