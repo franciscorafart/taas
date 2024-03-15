@@ -94,6 +94,7 @@ entity User {=psl
   datePaid                  DateTime?
   credits                   Int             @default(3)
   gptResponses              GptResponse[]
+  readings                  Reading[]
   contactFormMessages       ContactFormMessage[]     
   tasks                     Task[]
   files                     File[]
@@ -102,6 +103,17 @@ psl=}
 entity GptResponse {=psl
   id                        String          @id @default(uuid())
   content                   String
+  user                      User            @relation(fields: [userId], references: [id])
+  userId                    Int
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+psl=}
+
+entity Reading {=psl
+  id                        String          @id @default(uuid())
+  question                  String
+  content                   String
+  type                      Int             @default(0)
   user                      User            @relation(fields: [userId], references: [id])
   userId                    Int
   createdAt                 DateTime        @default(now())
@@ -213,6 +225,7 @@ page SignupPage {
 
 route ReadingRoute { path: "/reading", to: ReadingPage }
 page ReadingPage {
+  authRequired: true,
   component: import ReadingPage from "@src/client/app/ReadingPage"
 }
 
@@ -312,7 +325,7 @@ action generateGptResponse {
 
 action generateGptTarotReading {
   fn: import { generateGptTarotReading } from "@src/server/actions.js",
-  entities: [User, GptResponse]
+  entities: [User, Reading]
 }
 
 action createTask {

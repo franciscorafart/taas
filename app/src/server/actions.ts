@@ -12,7 +12,7 @@ import {
   type CreateFile,
 } from 'wasp/server/operations';
 import Stripe from 'stripe';
-import type { GeneratedSchedule, GeneratedTarotReading, StripePaymentResult, TarotCard } from '../shared/types';
+import { TarotReadingType, type GeneratedSchedule, type GeneratedTarotReading, type StripePaymentResult, type TarotCard } from '../shared/types';
 import { fetchStripeCustomer, createStripeCheckoutSession } from './payments/stripeUtils.js';
 import { TierIds } from '../shared/constants.js';
 import { getUploadFileSignedURLFromS3 } from './file-upload/s3Utils.js';
@@ -262,7 +262,7 @@ export const generateGptTarotReading: GenerateGptTarotReading<TarotPayload, Gene
     }
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo', // Should I change this?
+      model: 'gpt-3.5-turbo', // TODO: Should I change this?
       messages: [
         {
           role: 'system',
@@ -343,13 +343,13 @@ export const generateGptTarotReading: GenerateGptTarotReading<TarotPayload, Gene
     if (!responseContent) {
       throw new HttpError(500, 'Bad response from OpenAI');
     }
-//
-    // console.log('gpt function call arguments: ', responseContent);
 
-    await context.entities.GptResponse.create({
+    await context.entities.Reading.create({
       data: {
         user: { connect: { id: context.user.id } },
         content: responseContent.content || '',
+        question,
+        type: TarotReadingType.PastPresentFuture,
       },
     });
 

@@ -29,3 +29,7 @@ export type TarotCard = {
   value: string;
   label: string;
 }
+
+export enum TarotReadingType  {
+  PastPresentFuture,
+}
