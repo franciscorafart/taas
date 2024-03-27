@@ -4,12 +4,34 @@ import { TarotCard } from "wasp/ext-src/shared/types";
 import { generateGptTarotReading } from "wasp/client/operations";
 import { CgSpinner } from 'react-icons/cg';
 
-
 export default function ReadingPage() {
     const [cardThrow, setCardThrow] = useState<TarotCard[] | undefined>(undefined);
     const [reading, setReading] = useState<string>('');
     const [isGenerating, setIsGenerating] = useState<boolean>(false);
     const [question, setQuestion] = useState<string>('')
+
+    const formatContent = (res: string) => {
+      // Split the JSON string into individual sections
+      const sections = res.split('\n\n');
+      // Format the sections into HTML markup
+      const formattedSections = sections.map((section,sIdx) => {
+          const lines = section.split('\\n');
+          const title = lines[0].replace(/\*\*|\*\*/g, ''); // Extracting the title without asterisks
+          const content = lines.slice(1).map(
+            (line, lIdx) => <li key={`section-${sIdx}-line-${lIdx}`} className="text-sm">
+              {line.replace(/^\*\s/, '')}
+            </li>
+          );
+
+          return (
+              <div className={`section-${title}`}>
+                  <h2 className="text-md">{`${title}`}</h2>
+                  <ul>{content}</ul>
+              </div>
+          );
+      });
+      return <>{formattedSections.map(s => s)}</>;
+    }
 
     const handleThrow = async (e: FormEvent<HTMLFormElement>) => {
       try {
@@ -23,13 +45,14 @@ export default function ReadingPage() {
         setCardThrow(cards);
 
         const res = await generateGptTarotReading({ question, cards} );
-        console.log('reading res', res)
+        // console.log('reading res', res)
         setReading(res);
         setIsGenerating(false)
         } catch (err: any) {
           console.error('Error', err.message);
         }
     }
+    const content = reading && cardThrow?.length ? formatContent(reading) : null;
 
     return (
         <div className='py-10 lg:mt-10'>
@@ -75,11 +98,7 @@ export default function ReadingPage() {
                     <CgSpinner className='inline-block mr-2 animate-spin' /> 
                     ...Reading your cards
                   </>}
-                  {reading && <>
-                    <h2 className='text-xl font-bold'>Your Reading</h2>
-                    <div>{reading}</div>
-                  </> 
-                    }
+                  {content && <div className='mt-6 space-y-6'>{content}</div>}
               </div>
             </div>
           </div>
