@@ -39,7 +39,7 @@ export const stripePayment: StripePayment<string, StripePaymentResult> = async (
   }
 
   let priceId;
-  if (tier === TierIds.HOBBY) {
+  if (tier === TierIds.BASIC) {
     priceId = process.env.HOBBY_SUBSCRIPTION_PRICE_ID!;
   } else if (tier === TierIds.PRO) {
     priceId = process.env.PRO_SUBSCRIPTION_PRICE_ID!;
@@ -274,66 +274,6 @@ export const generateGptTarotReading: GenerateGptTarotReading<TarotPayload, Gene
           content: `The cards are ${cards.map(c => c.label).join(', ')}. The question: ${question}`,
         },
       ],
-      // tools: [
-      //   {
-      //     type: 'function',
-      //     function: {
-      //       name: 'parseTodaysSchedule',
-      //       description: 'parses the days tasks and returns a schedule',
-      //       parameters: {
-      //         type: 'object',
-      //         properties: {
-      //           mainTasks: {
-      //             type: 'array',
-      //             description: 'Name of main tasks provided by user, ordered by priority',
-      //             items: {
-      //               type: 'object',
-      //               properties: {
-      //                 name: {
-      //                   type: 'string',
-      //                   description: 'Name of main task provided by user',
-      //                 },
-      //                 priority: {
-      //                   type: 'string',
-      //                   enum: ['low', 'medium', 'high'],
-      //                   description: 'task priority',
-      //                 },
-      //               },
-      //             },
-      //           },
-      //           subtasks: {
-      //             type: 'array',
-      //             items: {
-      //               type: 'object',
-      //               properties: {
-      //                 description: {
-      //                   type: 'string',
-      //                   description:
-      //                     'detailed breakdown and description of sub-task related to main task. e.g., "Prepare your learning session by first reading through the documentation"',
-      //                 },
-      //                 time: {
-      //                   type: 'number',
-      //                   description: 'time allocated for a given subtask in hours, e.g. 0.5',
-      //                 },
-      //                 mainTaskName: {
-      //                   type: 'string',
-      //                   description: 'name of main task related to subtask',
-      //                 },
-      //               },
-      //             },
-      //           },
-      //         },
-      //         required: ['mainTasks', 'subtasks', 'time', 'priority'],
-      //       },
-      //     },
-      //   },
-      // ],
-      // tool_choice: {
-      //   type: 'function',
-      //   function: {
-      //     name: 'parseTodaysSchedule',
-      //   },
-      // },
       temperature: 1,
     });
 

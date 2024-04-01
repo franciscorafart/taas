@@ -37,7 +37,7 @@ export const stripeWebhook: StripeWebhook = async (request, response, context) =
       });
 
       if (line_items?.data[0]?.price?.id === process.env.HOBBY_SUBSCRIPTION_PRICE_ID) {
-        console.log('Hobby subscription purchased ');
+        console.log('Basic subscription purchased ');
         await context.entities.User.updateMany({
           where: {
             stripeId: userStripeId,
@@ -45,7 +45,7 @@ export const stripeWebhook: StripeWebhook = async (request, response, context) =
           data: {
             hasPaid: true,
             datePaid: new Date(),
-            subscriptionTier: TierIds.HOBBY,
+            subscriptionTier: TierIds.BASIC,
           },
         });
       } else if (line_items?.data[0]?.price?.id === process.env.PRO_SUBSCRIPTION_PRICE_ID) {
