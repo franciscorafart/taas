@@ -45,11 +45,13 @@ export default function ReadingPage() {
         setCardThrow(cards);
 
         const res = await generateGptTarotReading({ question, cards} );
-        // console.log('reading res', res)
+
         setReading(res);
         setIsGenerating(false)
         } catch (err: any) {
           console.error('Error', err.message);
+          setIsGenerating(false);
+          setReading('Oops. An error occurred while generating the reading. Please try again later.');
         }
     }
     const content = reading && cardThrow?.length ? formatContent(reading) : null;
@@ -82,7 +84,7 @@ export default function ReadingPage() {
                     className='min-w-[7rem] font-medium text-gray-800/90 bg-yellow-50 shadow-md ring-1 ring-inset ring-slate-200 py-2 px-4 rounded-md hover:bg-yellow-100 duration-200 ease-in-out focus:outline-none focus:shadow-none hover:shadow-none'
                     disabled={isGenerating}
                   >
-                    Get your reading
+                    Get your spread
                   </button>
                 </form>
                 <div className='border-b-2 border-gray-200 dark:border-gray-100/10'></div>

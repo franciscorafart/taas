@@ -1,12 +1,13 @@
 import { z } from 'zod';
 
 export enum TierIds {
-  HOBBY = 'hobby-tier',
+  BASIC = 'basic-tier',
   PRO = 'pro-tier',
-  ENTERPRISE = 'enterprise-tier',
+  MAGUS = 'magus-tier',
 }
 
 export const DOCS_URL = 'https://docs.opensaas.sh';
+export const READING_PAGE = '/reading';
 export const BLOG_URL = 'https://docs.opensaas.sh/blog';
 
 const isDevEnv = process.env.NODE_ENV !== 'production';

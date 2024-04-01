@@ -6,10 +6,10 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import { HiBars3 } from 'react-icons/hi2';
 import { BiLogIn } from 'react-icons/bi';
 import logo from '../static/logo.png';
-import openSaasBanner from '../static/open-saas-banner.png';
+import heroIdea2 from '../static/hero-idea2.png';
 import { features, navigation, faqs, footerNavigation, testimonials } from './contentSections';
 import DropdownUser from '../components/DropdownUser';
-import { DOCS_URL } from '../../shared/constants';
+import { DOCS_URL, READING_PAGE } from '../../shared/constants';
 import { UserMenuItems } from '../components/UserMenuItems';
 import DarkModeSwitcher from '../admin/components/DarkModeSwitcher';
 
@@ -31,7 +31,7 @@ export default function LandingPage() {
               className='flex items-center -m-1.5 p-1.5 text-gray-900 duration-300 ease-in-out hover:text-yellow-500'
             >
               <NavLogo />
-              <span className='ml-2 text-sm font-semibold leading-6 dark:text-white'>Your Saas</span>
+              <span className='ml-2 text-sm font-semibold leading-6 dark:text-white'>TaaS</span>
             </a>
           </div>
           <div className='flex lg:hidden'>
@@ -78,7 +78,7 @@ export default function LandingPage() {
           <Dialog.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-boxdark dark:text-white'>
             <div className='flex items-center justify-between'>
               <a href='/' className='-m-1.5 p-1.5'>
-                <span className='sr-only'>Your SaaS</span>
+                <span className='sr-only'>TaaS</span>
                 <NavLogo />
               </a>
               <button
@@ -153,24 +153,27 @@ export default function LandingPage() {
             <div className='mx-auto max-w-8xl px-6 lg:px-8'>
               <div className='lg:mb-18 mx-auto max-w-3xl text-center'>
                 <h1 className='text-4xl font-bold text-gray-900 sm:text-6xl dark:text-white'>
-                  Some <span className='italic'>cool</span> words about your product
+                  <span className='italic'>TaaS</span> Tarot
                 </h1>
                 <p className='mt-6 mx-auto max-w-2xl text-lg leading-8 text-gray-600 dark:text-white'>
-                  With some more exciting words about your product!
+                  Your personal tarot reader
+                </p>
+                <p className='mt-6 mx-auto max-w-2xl text-lg leading-8 text-gray-600 dark:text-white'>
+                  Sign up and get a free reading
                 </p>
                 <div className='mt-10 flex items-center justify-center gap-x-6'>
                   <a
-                    href={DOCS_URL}
+                    href={READING_PAGE}
                     className='rounded-md px-3.5 py-2.5 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-200 hover:ring-2 hover:ring-yellow-300 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:text-white'
                   >
-                    Get Started <span aria-hidden='true'>→</span>
+                    Get Free Tarot Reading <span aria-hidden='true'>→</span>
                   </a>
                 </div>
               </div>
               <div className='mt-14 flow-root sm:mt-14 '>
                 <div className='-m-2 rounded-xl  lg:-m-4 lg:rounded-2xl lg:p-4'>
                   <img
-                    src={openSaasBanner}
+                    src={heroIdea2}
                     alt='App screenshot'
                     width={2432}
                     height={1442}
@@ -183,7 +186,7 @@ export default function LandingPage() {
         </div>
 
         {/* Clients section */}
-        <div className='mt-12 mx-auto max-w-7xl px-6 lg:px-8 flex flex-col items-between gap-y-6'>
+        {/* <div className='mt-12 mx-auto max-w-7xl px-6 lg:px-8 flex flex-col items-between gap-y-6'>
           <h2 className='mb-6 text-center font-semibold tracking-wide text-gray-500 dark:text-white'>
             Built with / Used by:
           </h2>
@@ -247,10 +250,10 @@ export default function LandingPage() {
               </svg>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Feature section */}
-        <div id='features' className='mx-auto mt-48 max-w-7xl px-6 lg:px-8'>
+        {/* <div id='features' className='mx-auto mt-48 max-w-7xl px-6 lg:px-8'>
           <div className='mx-auto max-w-2xl text-center'>
             <p className='mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl dark:text-white'>
               The <span className='text-yellow-500'>Best</span> Features
@@ -275,10 +278,10 @@ export default function LandingPage() {
               ))}
             </dl>
           </div>
-        </div>
+        </div> */}
 
         {/* Testimonial section */}
-        <div className='mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8'>
+        {/* <div className='mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8'>
           <div className='relative sm:left-5 -m-2 rounded-xl bg-yellow-400/20 lg:ring-1 lg:ring-yellow-500/50 lg:-m-4 '>
             <div className='relative sm:top-5 sm:right-5 bg-gray-900 dark:bg-boxdark px-8 py-20 shadow-xl sm:rounded-xl sm:px-10 sm:py-16 md:px-12 lg:px-20'>
               <h2 className='text-left text-xl font-semibold tracking-wide leading-7 text-gray-500 dark:text-white'>
@@ -304,10 +307,10 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* FAQ */}
-        <div className='mt-32 mx-auto max-w-2xl divide-y divide-gray-900/10 dark:divide-gray-200/10 px-6 pb-8 sm:pb-24 sm:pt-12 lg:max-w-7xl lg:px-8 lg:py-32'>
+        {/* <div className='mt-32 mx-auto max-w-2xl divide-y divide-gray-900/10 dark:divide-gray-200/10 px-6 pb-8 sm:pb-24 sm:pt-12 lg:max-w-7xl lg:px-8 lg:py-32'>
           <h2 className='text-2xl font-bold leading-10 tracking-tight text-gray-900 dark:text-white'>
             Frequently asked questions
           </h2>
@@ -328,7 +331,7 @@ export default function LandingPage() {
               </div>
             ))}
           </dl>
-        </div>
+        </div> */}
       </main>
 
       {/* Footer */}
@@ -342,7 +345,7 @@ export default function LandingPage() {
           </h2>
           <div className='flex items-start justify-end mt-10 gap-20'>
             <div>
-              <h3 className='text-sm font-semibold leading-6 text-gray-900 dark:text-white'>App</h3>
+              <h3 className='text-sm font-semibold leading-6 text-gray-900 dark:text-white'>Readings</h3>
               <ul role='list' className='mt-6 space-y-4'>
                 {footerNavigation.app.map((item) => (
                   <li key={item.name}>

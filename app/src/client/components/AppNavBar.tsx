@@ -13,14 +13,14 @@ import { UserMenuItems } from '../components/UserMenuItems';
 
 const navigation = [
   // { name: 'AI Scheduler (Demo App)', href: '/demo-app' },
-  { name: "Three cards reading", href: "/reading" },
+  { name: "Past Present Future", href: "/reading" },
   // { name: 'File Upload (AWS S3)', href: '/file-upload' },
   { name: 'Pricing', href: '/pricing' },
   // { name: 'Documentation', href: DOCS_URL },
   // { name: 'Blog', href: BLOG_URL },
 ];
 
-const NavLogo = () => <img className='h-8 w-8' src={logo} alt='Your SaaS App' />;
+const NavLogo = () => <img className='h-8 w-8' src={logo} alt='Tarot as a service App' />;
 
 export default function AppNavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -78,7 +78,7 @@ export default function AppNavBar() {
         <Dialog.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:text-white dark:bg-boxdark px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
           <div className='flex items-center justify-between'>
             <a href='/' className='-m-1.5 p-1.5'>
-              <span className='sr-only'>Your SaaS</span>
+              <span className='sr-only'>TaaS</span>
               <NavLogo />
             </a>
             <button

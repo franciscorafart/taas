@@ -8,26 +8,26 @@ import { cn } from '../../shared/utils';
 
 export const tiers = [
   {
-    name: 'Hobby',
-    id: TierIds.HOBBY,
-    priceMonthly: '$9.99',
-    description: 'All you need to get started',
-    features: ['Limited monthly usage', 'Basic support'],
+    name: 'Le Mat - Basic',
+    id: TierIds.BASIC,
+    priceMonthly: '$4.99',
+    description: '10 readings a month',
+    features: ['Limited monthly usage', 'Basic spreads'],
   },
   {
-    name: 'Pro',
+    name: 'The Emperess - Pro',
     id: TierIds.PRO,
-    priceMonthly: '$19.99',
-    description: 'Our most popular plan',
-    features: ['Unlimited monthly usage', 'Priority customer support'],
+    priceMonthly: '$9.99',
+    description: 'Daily tarot read',
+    features: ['30 readings a month', 'Advanced spreads', 'Most popular tier'],
     bestDeal: true,
   },
   {
-    name: 'Enterprise',
-    id: TierIds.ENTERPRISE,
-    priceMonthly: '$500',
-    description: 'Big business means big money',
-    features: ['Unlimited monthly usage', '24/7 customer support', 'Advanced analytics'],
+    name: 'Le Bateleur - Pro Plus',
+    id: TierIds.MAGUS,
+    priceMonthly: '$14.00',
+    description: 'Unlimited readings',
+    features: ['Unlimited reads', 'Advanced and exclusive spreads'],
   },
 ];
 
@@ -121,8 +121,8 @@ const PricingPage = () => {
                   className={cn(
                     'mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400',
                     {
-                      'opacity-50 cursor-not-allowed': tier.id === 'enterprise-tier',
-                      'opacity-100 cursor-pointer': tier.id !== 'enterprise-tier',
+                      'opacity-50 cursor-not-allowed': tier.id === 'magus-tier',
+                      'opacity-100 cursor-pointer': tier.id !== 'magus-tier',
                     },
                     {
                       'bg-yellow-500 text-white hover:text-white shadow-sm hover:bg-yellow-400': tier.bestDeal,
@@ -130,7 +130,7 @@ const PricingPage = () => {
                     }
                   )}
                 >
-                  {tier.id === 'enterprise-tier' ? 'Contact us' : 'Manage Subscription'}
+                  {tier.id === 'magus-tier' ? 'Contact us' : 'Manage Subscription'}
                 </a>
               ) : (
                 <button
@@ -138,8 +138,8 @@ const PricingPage = () => {
                   aria-describedby={tier.id}
                   className={cn(
                     {
-                      'opacity-50 cursor-not-allowed': tier.id === 'enterprise-tier',
-                      'opacity-100 cursor-pointer': tier.id !== 'enterprise-tier',
+                      'opacity-50 cursor-not-allowed': tier.id === 'magus-tier',
+                      'opacity-100 cursor-pointer': tier.id !== 'magus-tier',
                     },
                     {
                       'bg-yellow-500 text-white hover:text-white shadow-sm hover:bg-yellow-400': tier.bestDeal,
@@ -151,7 +151,7 @@ const PricingPage = () => {
                     'mt-8 block rounded-md py-2 px-3 text-center text-sm dark:text-white font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400'
                   )}
                 >
-                  {tier.id === 'enterprise-tier' ? 'Contact us' : !!user ? 'Buy plan' : 'Log in to buy plan'}
+                  {tier.id === 'magus-tier' ? 'Contact us' : !!user ? 'Buy plan' : 'Log in to buy plan'}
                 </button>
               )}
             </div>

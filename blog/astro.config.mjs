@@ -22,12 +22,12 @@ export default defineConfig({
       },
     }),
     starlight({
-      title: 'Your SaaS',
+      title: 'TaaS App',
       customCss: ['./src/styles/tailwind.css'],
       description: 'Documentation for your SaaS.',
       logo: {
         src: '/src/assets/logo.png',
-        alt: 'Your SaaS',
+        alt: 'TaaS',
       },
       head: [
         // Add your script tags here. Below is an example for Google analytics, etc.

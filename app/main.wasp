@@ -53,7 +53,7 @@ app OpenSaaS {
       // },
     },
     onAuthFailedRedirectTo: "/login",
-    onAuthSucceededRedirectTo: "/demo-app",
+    onAuthSucceededRedirectTo: "/reading",
   },
   db: { 
     system: PostgreSQL,
